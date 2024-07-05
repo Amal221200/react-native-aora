@@ -13,7 +13,7 @@ export default function Index() {
       }}>
         <View className="w-full flex-1 items-center justify-center px-4">
           <Image source={images.logo} className="h-[84px] w-[130px]" resizeMode="contain" />
-          
+
           <Image source={images.cards} className="h-[300px] w-full" resizeMode="contain" />
 
           <View className="relative mt-5">
@@ -29,14 +29,12 @@ export default function Index() {
             Where creativity meets innovation: embark a journey of limitless exploration with Aora
           </Text>
 
-          <CustomButton handlePress={()=> {router.push('/sign-in')}}style={{width: '100%', marginTop: 28}}>
-            <Text className="font-psemibold text-lg text-primary">
-              Continue with email
-            </Text>
+          <CustomButton handlePress={() => { router.push('/sign-in') }} styles={'mt-7 w-full'}>
+            Continue with email
           </CustomButton>
         </View>
       </ScrollView>
-      
+
       <StatusBar backgroundColor="#161622" style="light" />
     </SafeAreaView>
   );
