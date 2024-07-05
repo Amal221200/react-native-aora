@@ -12,16 +12,16 @@ export const appWriteConfig = {
 }
 
 // Init your React Native SDK
-const client = new Client();
+export const client = new Client();
 
 client
     .setEndpoint(appWriteConfig.endpoint) // Your Appwrite Endpoint
     .setProject(appWriteConfig.projectId) // Your project ID
     .setPlatform(appWriteConfig.platform); // Your application ID or bundle ID.
 
-const account = new Account(client);
-const avatars = new Avatars(client);
-const databases = new Databases(client);
+export const account = new Account(client);
+export const avatars = new Avatars(client);
+export const databases = new Databases(client);
 
 // Register User
 export async function createUser(email: string, password: string, username: string) {
