@@ -5,14 +5,16 @@ import { images } from '../../constants'
 import SearchInput from '../../components/SearchInput'
 import Trending from '../../components/Trending'
 import EmptyState from '../../components/EmptyState'
-import { getAllPosts } from "../../lib/posts"
+import { getAllPosts, getLatestPosts } from "../../lib/posts"
 import useAppwrite from "../../hooks/useAppwrite"
 import VideoCard from '../../components/VideoCard'
 
 const Home = () => {
   const [refreshing, setRefreshing] = useState(false)
-  const { data: posts, isLoading } = useAppwrite(getAllPosts)
-
+  const { data: posts, refetch } = useAppwrite(getAllPosts)
+  const { data: trendingPosts } = useAppwrite(getLatestPosts)
+  // console.log(trendingPosts);
+  
   const onRefresh = useCallback(async () => {
     setRefreshing(true)
     setTimeout(() => {
@@ -41,7 +43,7 @@ const Home = () => {
             </Text>
           </View>
 
-          <Trending posts={[{ $id: 1 }, { $id: 2 }, { $id: 3 }]} />
+          <Trending posts={trendingPosts} />
         </View>
       )} ListEmptyComponent={() => (
         <EmptyState title="No Videos Found" subtitle="Be the first one to upload a video" />

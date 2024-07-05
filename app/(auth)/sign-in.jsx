@@ -12,9 +12,11 @@ const SignIn = () => {
     email: "",
     password: ""
   })
+  
   const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = useCallback(async () => {
     const { email, password } = formData
+    console.log(email, password, "Helo");
     if (!email || !password) {
       return ToastAndroid.showWithGravity('Please enter all the fields', 5, ToastAndroid.BOTTOM)
     }
