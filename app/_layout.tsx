@@ -1,3 +1,4 @@
+import SessionProvider from "@/components/providers/SessionProvider";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
@@ -29,13 +30,15 @@ export default function RootLayout() {
     return null;
   }
   return (
-    <Stack screenOptions={{
-      headerShown: false
-    }}>
-      <Stack.Screen name="index"  />
-      <Stack.Screen name="(auth)" />
-      <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="search/[query]" />
-    </Stack>
+    <SessionProvider>
+      <Stack screenOptions={{
+        headerShown: false
+      }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="(auth)" />
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="search/[query]" />
+      </Stack>
+    </SessionProvider>
   );
 }

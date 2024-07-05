@@ -21,7 +21,7 @@ const TabIcon = ({ icon, color, focused, name }) => {
 const TabsLayout = () => {
   return (
     <Tabs screenOptions={{
-      // headerShown: false,
+      headerShown: false,
       tabBarShowLabel: false,
       tabBarActiveTintColor: '#ffa001',
       tabBarInactiveTintColor: '#cdcde0',
@@ -36,15 +36,15 @@ const TabsLayout = () => {
         title: 'Home',
         tabBarIcon: ({ color, focused }) => <TabIcon color={color} focused={focused} icon={icons.home} name="Home" />
       }} />
-      <Tabs.Screen name='bookmark'
-        options={{
-          title: 'Bookmark',
-          tabBarIcon: ({ color, focused }) => <TabIcon color={color} focused={focused} icon={icons.bookmark} name="Bookmark" />
-        }} />
       <Tabs.Screen name='create'
         options={{
           title: 'Create',
           tabBarIcon: ({ color, focused }) => <TabIcon color={color} focused={focused} icon={icons.plus} name="Create" />
+        }} />
+      <Tabs.Screen name='bookmark'
+        options={{
+          title: 'Bookmark',
+          tabBarIcon: ({ color, focused }) => <TabIcon color={color} focused={focused} icon={icons.bookmark} name="Bookmark" />
         }} />
       <Tabs.Screen name='profile' options={{
         title: 'Profile',

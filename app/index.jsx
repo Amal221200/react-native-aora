@@ -1,11 +1,24 @@
-import CustomButton from "@/components/CustomButton";
+import 'react-native-url-polyfill/auto'
 import { images } from "@/constants";
-import { Link, router, Redirect } from "expo-router";
+import { router, Redirect } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Image, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import CustomButton from "@/components/CustomButton";
+import { useContext } from 'react';
+import { SessionContext } from '@/components/providers/SessionProvider';
 
 export default function Index() {
+  const session = useContext(SessionContext)
+
+  if(session.isLoading){
+    return null
+  }
+
+  if(session.isLoggedIn){
+    return <Redirect href="/home" /> 
+  }
+  
   return (
     <SafeAreaView className="h-full bg-primary">
       <ScrollView contentContainerStyle={{

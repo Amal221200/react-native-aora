@@ -1,10 +1,11 @@
-import { View, Text, ScrollView, Image } from 'react-native'
+import { View, Text, ScrollView, Image, Alert, ToastAndroid } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from "../../constants"
 import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
 import { useCallback, useState } from 'react'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
+import { createUser } from "../../lib/appwrite"
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -13,8 +14,22 @@ const SignUp = () => {
     password: "",
   })
   const [isLoading, setIsLoading] = useState(false);
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
+    const { email, password, username } = formData
+    if (!email || !password || !username) {
+      return ToastAndroid.showWithGravity('Please enter all the fields', 5, ToastAndroid.BOTTOM)
+    }
+    try {
+      setIsLoading(true)
+      const result = await createUser(email, password, username)
 
+      router.replace('/home')
+    } catch (error) {
+      ToastAndroid.showWithGravity('Something went wrong', 5, ToastAndroid.BOTTOM)
+      console.log(error);
+    } finally {
+      setIsLoading(false)
+    }
   }, [])
 
   return (
@@ -25,9 +40,9 @@ const SignUp = () => {
           <Text className="mt-10 font-psemibold text-2xl text-white">Create your account</Text>
 
           <FormField title="Username" value={formData.username} styles="mt-10" onChangeText={(value) => setFormData(current => ({ ...current, username: value }))} placeholder={'Enter your username'} />
-            
+
           <FormField title="Email" value={formData.email} styles="mt-7" onChangeText={(value) => setFormData(current => ({ ...current, email: value }))} keyboardType={'email-address'} placeholder={'Enter your email'} />
-            
+
           <FormField title="Password" value={formData.password} styles="mt-7" onChangeText={(value) => setFormData(current => ({ ...current, password: value }))} placeholder={'Enter your password'} isPassword />
 
           <CustomButton handlePress={handleSubmit} styles={'mt-7'} isLoading={isLoading}>

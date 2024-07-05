@@ -1,10 +1,11 @@
-import { View, Text, ScrollView, Image } from 'react-native'
+import { View, Text, ScrollView, Image, ToastAndroid } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from "../../constants"
 import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
 import { useCallback, useState } from 'react'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
+import { signIn } from '../../lib/appwrite'
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -12,8 +13,22 @@ const SignIn = () => {
     password: ""
   })
   const [isLoading, setIsLoading] = useState(false);
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
+    const { email, password } = formData
+    if (!email || !password) {
+      return ToastAndroid.showWithGravity('Please enter all the fields', 5, ToastAndroid.BOTTOM)
+    }
+    try {
+      setIsLoading(true)
+      const result = await signIn(email, password)
 
+      router.replace('/home')
+    } catch (error) {
+      ToastAndroid.showWithGravity('Something went wrong', 5, ToastAndroid.BOTTOM)
+      console.log(error);
+    } finally {
+      setIsLoading(false)
+    }
   }, [])
 
   return (
