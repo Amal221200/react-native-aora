@@ -1,50 +1,50 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { icons } from "../constants"
 import { useState } from 'react'
-import { ResizeMode, Video } from 'expo-av'
+import { ResizeMode } from 'expo-av'
+import { StyledImage, StyledText, StyledTouchableOpacity, StyledVideo, StyledView } from './styledComponents'
 
 const VideoCard = ({ video }) => {
     const [play, setPlay] = useState(false)
 
     return (
-        <View className="mb-14 items-center px-4">
-            <View className="flex-row items-start gap-3">
-                <View className="flex-1 flex-row items-center justify-center">
-                    <View className="h-[46px] w-[46px] items-center justify-center rounded-lg border border-secondary p-0.5">
-                        <Image source={{ uri: video.creator.avatar }}
+        <StyledView className="mb-14 items-center px-4">
+            <StyledView className="flex-row items-start gap-3">
+                <StyledView className="flex-1 flex-row items-center justify-center">
+                    <StyledView className="h-[46px] w-[46px] items-center justify-center rounded-lg border border-secondary p-0.5">
+                        <StyledImage source={{ uri: video.creator.avatar }}
                             className="h-full w-full rounded-lg"
                             resizeMode='cover' />
-                    </View>
-                    <View className="ml-3 flex-1 justify-center gap-y-1">
-                        <Text className="font-psemibold text-sm text-white" numberOfLines={1}>
+                    </StyledView>
+                    <StyledView className="ml-3 flex-1 justify-center gap-y-1">
+                        <StyledText className="font-psemibold text-sm text-white" numberOfLines={1}>
                             {video.title}
-                        </Text>
-                        <Text className="font-pregular text-xs text-gray-100" numberOfLines={1}>
+                        </StyledText>
+                        <StyledText className="font-pregular text-xs text-gray-100" numberOfLines={1}>
                             {video.creator.username}
-                        </Text>
-                    </View>
-                </View>
-                <View className="pt-2">
-                    <Image source={icons.menu} resizeMode='contain' className="h-5 w-5" />
-                </View>
-            </View>
+                        </StyledText>
+                    </StyledView>
+                </StyledView>
+                <StyledView className="pt-2">
+                    <StyledImage source={icons.menu} resizeMode='contain' className="h-5 w-5" />
+                </StyledView>
+            </StyledView>
             {
                 play ? (
-                    <Video source={require('../assets/video.mp4')} resizeMode={ResizeMode.CONTAIN} className="mt-3 h-60 w-full rounded-xl" useNativeControls shouldPlay onPlaybackStatusUpdate={(status) => {
-                        if (status.didJustFinished) {
+                    <StyledVideo source={require('../assets/video.mp4')} resizeMode={ResizeMode.CONTAIN} className="mt-3 h-60 w-full rounded-xl" useNativeControls shouldPlay onPlaybackStatusUpdate={(status) => {
+                        if (status.didJustFinish) {
                             setPlay(false)
                         }
                     }} />
                 ) : (
-                    <TouchableOpacity onPress={() => setPlay(true)} activeOpacity={0.7} className="relative mt-3 h-60 w-full items-center justify-center rounded-xl">
-                        <Image source={{ uri: video.thumbnail }} resizeMode='cover' className="mt-3 h-full w-full rounded-xl" />
-                        <TouchableOpacity onPress={() => setPlay(true)} className="absolute">
-                            <Image source={icons.play} resizeMode='contain' className="mt-3 h-12 w-12 rounded-xl" />
-                        </TouchableOpacity>
-                    </TouchableOpacity>
+                    <StyledTouchableOpacity onPress={() => setPlay(true)} activeOpacity={0.7} className="relative mt-3 h-60 w-full items-center justify-center rounded-xl">
+                        <StyledImage source={{ uri: video.thumbnail }} resizeMode='cover' className="mt-3 h-full w-full rounded-xl" />
+                        <StyledTouchableOpacity onPress={() => setPlay(true)} className="absolute">
+                            <StyledImage source={icons.play} resizeMode='contain' className="mt-3 h-12 w-12 rounded-xl" />
+                        </StyledTouchableOpacity>
+                    </StyledTouchableOpacity>
                 )
             }
-        </View>
+        </StyledView>
     )
 }
 

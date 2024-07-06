@@ -1,20 +1,21 @@
-import { Image, Text, View } from 'react-native'
+import { Image, ImageSourcePropType, Text, View } from 'react-native'
 import { Tabs } from 'expo-router'
 import { icons } from "../../constants"
+import { StyledImage, StyledText, StyledView } from '@/components/styledComponents'
 
-const TabIcon = ({ icon, color, focused, name }) => {
+const TabIcon = ({ icon, color, focused, name }: { icon: ImageSourcePropType, color: string, focused?: boolean, name: string }) => {
   return (
-    <View className="items-center gap-1">
-      <Image source={icon}
+    <StyledView className="items-center gap-1">
+      <StyledImage source={icon}
         tintColor={color}
         className="h-5 w-5"
         resizeMode='contain'
       />
-      <Text className={`text-xs ${focused ? 'font-psemibold' : 'font-pregular'}`}
+      <StyledText className={`text-xs ${focused ? 'font-psemibold' : 'font-pregular'}`}
         style={{ color }}>
         {name}
-      </Text>
-    </View>
+      </StyledText>
+    </StyledView>
   )
 }
 

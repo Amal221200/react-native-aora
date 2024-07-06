@@ -3,7 +3,7 @@ import { Models } from 'react-native-appwrite'
 import { getCurrentUser } from "../../lib/appwrite"
 
 
-interface TSessionContext {
+export interface TSessionContext {
     isLoading: boolean,
     isLoggedIn: boolean,
     user: Models.Document | null,
