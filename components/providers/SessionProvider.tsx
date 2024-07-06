@@ -1,6 +1,6 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from 'react'
 import { Models } from 'react-native-appwrite'
-import { getCurrentUser } from "../../lib/appwrite"
+import { getCurrentUser } from "../../lib/users"
 
 
 export interface TSessionContext {

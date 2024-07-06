@@ -16,7 +16,6 @@ const Search = () => {
     return getQueryPosts(searchQuery ?? query! as string) 
   })
 
-
   useEffect(() => {
     refetch(query)
   }, [query])

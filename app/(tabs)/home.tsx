@@ -1,5 +1,5 @@
 import { FlatList, RefreshControl } from 'react-native'
-import { useCallback, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import { images } from '../../constants'
 import SearchInput from '../../components/SearchInput'
 import Trending from '../../components/Trending'
@@ -9,8 +9,10 @@ import useAppwrite from "../../hooks/useAppwrite"
 import VideoCard from '../../components/VideoCard'
 import { StyledImage, StyledSafeAreaView, StyledText, StyledView } from '@/components/styledComponents'
 import { Models } from 'react-native-appwrite'
+import { SessionContext, TSessionContext } from '@/components/providers/SessionProvider'
 
 const Home = () => {
+  const { user } = useContext(SessionContext) as TSessionContext
   const [refreshing, setRefreshing] = useState(false)
   const { data: posts, refetch } = useAppwrite(getAllPosts)
   const { data: trendingPosts } = useAppwrite(getLatestPosts)
@@ -28,7 +30,9 @@ const Home = () => {
           <StyledView className="mb-6 flex-row items-start justify-between gap-1">
             <StyledView>
               <StyledText className="font-pmedium text-sm text-gray-100">Welcome Back</StyledText>
-              <StyledText className="font-psemibold text-2xl text-white">JSMastery</StyledText>
+              <StyledText className="font-psemibold text-2xl text-white">
+                {user?.username}
+              </StyledText>
             </StyledView>
             <StyledView className='mt-1.5'>
               <StyledImage source={images.logoSmall} className="h-10 w-9" resizeMode='contain' />

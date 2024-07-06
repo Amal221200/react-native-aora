@@ -20,6 +20,15 @@ export async function getQueryPosts(query: string) {
     }
 }
 
+export async function getUserPosts(userId: string) {
+    try {        
+        const posts = await databases.listDocuments(appWriteConfig.databaseId, appWriteConfig.videoCollectionId, [Query.equal('creator', userId)])
+        return posts.documents
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export async function getLatestPosts() {
     try {
         const posts = await databases.listDocuments(appWriteConfig.databaseId, appWriteConfig.videoCollectionId, [Query.orderDesc('$createdAt'), Query.limit(7)])

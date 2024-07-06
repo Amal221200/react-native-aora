@@ -1,19 +1,24 @@
-import { View, Text, ScrollView, Image, Alert, ToastAndroid } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { ToastAndroid } from 'react-native'
 import { images } from "../../constants"
 import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
-import { useCallback, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import { Link, router } from 'expo-router'
-import { createUser } from "../../lib/appwrite"
+import { createUser, getCurrentUser } from "../../lib/users"
+import { StyledImage, StyledSafeAreaView, StyledScrollView, StyledText, StyledView } from '@/components/styledComponents'
+import { SessionContext, TSessionContext } from '@/components/providers/SessionProvider'
 
 const SignUp = () => {
+  const { setIsLoggedIn, setUser } = useContext(SessionContext) as TSessionContext
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
   })
+
   const [isLoading, setIsLoading] = useState(false);
+  
   const handleSubmit = useCallback(async () => {
     const { email, password, username } = formData
     if (!email || !password || !username) {
@@ -21,8 +26,9 @@ const SignUp = () => {
     }
     try {
       setIsLoading(true)
-      const result = await createUser(email, password, username)
-
+      const user = await createUser(email, password, username)
+      setIsLoggedIn(true)
+      setUser(user!)
       router.replace('/home')
     } catch (error) {
       ToastAndroid.showWithGravity('Something went wrong', 5, ToastAndroid.BOTTOM)
@@ -30,14 +36,14 @@ const SignUp = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }, [formData])
 
   return (
-    <SafeAreaView className="h-full bg-primary">
-      <ScrollView>
-        <View className="my-6 h-full min-h-[85vh] w-full flex-1 justify-center px-4">
-          <Image source={images.logo} resizeMode='contain' className='h-[35px] w-[115px]' />
-          <Text className="mt-10 font-psemibold text-2xl text-white">Create your account</Text>
+    <StyledSafeAreaView className="h-full bg-primary">
+      <StyledScrollView>
+        <StyledView className="my-6 h-full min-h-[85vh] w-full flex-1 justify-center px-4">
+          <StyledImage source={images.logo} resizeMode='contain' className='h-[35px] w-[115px]' />
+          <StyledText className="mt-10 font-psemibold text-2xl text-white">Create your account</StyledText>
 
           <FormField title="Username" value={formData.username} styles="mt-10" onChangeText={(value) => setFormData(current => ({ ...current, username: value }))} placeholder={'Enter your username'} />
 
@@ -48,13 +54,13 @@ const SignUp = () => {
           <CustomButton handlePress={handleSubmit} styles={'mt-7'} isLoading={isLoading}>
             Sign Up
           </CustomButton>
-          <View className="flex-row justify-center gap-2 pt-5">
-            <Text className="font-pregular text-lg text-gray-100">Already have an account?</Text>
+          <StyledView className="flex-row justify-center gap-2 pt-5">
+            <StyledText className="font-pregular text-lg text-gray-100">Already have an account?</StyledText>
             <Link href="/sign-in" className="font-psemibold text-lg text-secondary">Log In</Link>
-          </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+          </StyledView>
+        </StyledView>
+      </StyledScrollView>
+    </StyledSafeAreaView>
   )
 }
 
