@@ -1,6 +1,5 @@
-import { View, Text, FlatList, Image, RefreshControl } from 'react-native'
+import { FlatList, RefreshControl } from 'react-native'
 import { useCallback, useState } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '../../constants'
 import SearchInput from '../../components/SearchInput'
 import Trending from '../../components/Trending'
@@ -8,7 +7,7 @@ import EmptyState from '../../components/EmptyState'
 import { getAllPosts, getLatestPosts } from "../../lib/posts"
 import useAppwrite from "../../hooks/useAppwrite"
 import VideoCard from '../../components/VideoCard'
-import { StyledFlatList, StyledImage, StyledSafeAreaView, StyledText, StyledView } from '@/components/styledComponents'
+import { StyledImage, StyledSafeAreaView, StyledText, StyledView } from '@/components/styledComponents'
 import { Models } from 'react-native-appwrite'
 
 const Home = () => {
@@ -18,9 +17,8 @@ const Home = () => {
   
   const onRefresh = useCallback(async () => {
     setRefreshing(true)
-    setTimeout(() => {
-      setRefreshing(false)
-    }, 4000)
+    await refetch()
+    setRefreshing(false)
   }, [])
 
   return (
@@ -37,7 +35,7 @@ const Home = () => {
             </StyledView>
           </StyledView>
 
-          <SearchInput value='' />
+          <SearchInput />
           <StyledView className="w-full flex-1 pb-8 pt-5">
             <StyledText className="mb-3 font-pregular text-lg text-gray-100">
               Latest Videos
