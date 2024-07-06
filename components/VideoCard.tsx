@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { ResizeMode } from 'expo-av'
 import { StyledImage, StyledText, StyledTouchableOpacity, StyledVideo, StyledView } from './styledComponents'
 
-const VideoCard = ({ video }) => {
+const VideoCard = ({ video }: { video: any }) => {
     const [play, setPlay] = useState(false)
 
     return (
@@ -30,8 +30,8 @@ const VideoCard = ({ video }) => {
             </StyledView>
             {
                 play ? (
-                    <StyledVideo source={require('../assets/video.mp4')} resizeMode={ResizeMode.CONTAIN} className="mt-3 h-60 w-full rounded-xl" useNativeControls shouldPlay onPlaybackStatusUpdate={(status) => {
-                        if (status.didJustFinish) {
+                    <StyledVideo source={{ uri: video.video }} resizeMode={ResizeMode.CONTAIN} className="mt-3 h-60 w-full rounded-xl" useNativeControls shouldPlay onPlaybackStatusUpdate={(status) => {
+                        if (status.isLoaded && status.didJustFinish) {
                             setPlay(false)
                         }
                     }} />

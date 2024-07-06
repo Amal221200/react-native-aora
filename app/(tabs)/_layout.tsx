@@ -1,4 +1,4 @@
-import { Image, ImageSourcePropType, Text, View } from 'react-native'
+import { ImageSourcePropType, Text, View } from 'react-native'
 import { Tabs } from 'expo-router'
 import { icons } from "../../constants"
 import { StyledImage, StyledText, StyledView } from '@/components/styledComponents'

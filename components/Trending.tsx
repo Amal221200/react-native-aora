@@ -1,7 +1,8 @@
-import { useCallback,  useState } from 'react'
+import { useCallback, useState } from 'react'
 import { ResizeMode } from "expo-av"
 import { icons } from '../constants'
-import { StyledAnimatableView, StyledFlatList, StyledImage, StyledImageBackground, StyledTouchableOpacity, StyledVideo, StyledView } from './styledComponents'
+import { StyledAnimatableView, StyledImage, StyledImageBackground, StyledTouchableOpacity, StyledVideo, StyledView } from './styledComponents'
+import { FlatList, ViewToken } from 'react-native'
 
 const zoomIn = {
     from: {
@@ -11,23 +12,23 @@ const zoomIn = {
         scale: 1
     }
 }
-const zoomOut = {
+const zoomOut= {
     from: {
-        scale: 1
+        scale: 1,
     },
     to: {
         scale: 0.9
     }
 }
 
-const TrendingItem = ({ activeItem, item }) => {
+const TrendingItem = ({ activeItem, item }: { activeItem: string, item: any }) => {
     const [play, setPlay] = useState(false);
     return (
         <StyledAnimatableView className="mr-5" animation={activeItem === item.$id ? zoomIn : zoomOut} duration={500}>
             {
                 play ? (
-                    <StyledVideo source={require('../assets/video2.mp4')} resizeMode={ResizeMode.CONTAIN} className="h-72 w-52 rounded-[35px] bg-white/10" useNativeControls shouldPlay onPlaybackStatusUpdate={(status) => {
-                        if (status.didJustFinish) {
+                    <StyledVideo source={{uri: item.video }} resizeMode={ResizeMode.CONTAIN} className="h-72 w-52 rounded-[35px] bg-white/10" useNativeControls shouldPlay onPlaybackStatusUpdate={(status) => {
+                        if (status.isLoaded && status.didJustFinish) {
                             setPlay(false)
                         }
                     }} />
@@ -42,10 +43,13 @@ const TrendingItem = ({ activeItem, item }) => {
     )
 }
 
-const Trending = ({ posts }) => {
+const Trending = ({ posts }: { posts: Array<any> }) => {
     const [activeItem, setActiveItem] = useState(posts?.[1]?.$id);
 
-    const viewableItemsChange = useCallback(({ viewableItems }) => {
+    const viewableItemsChange = useCallback(({ viewableItems }: {
+        viewableItems: ViewToken<any>[];
+        changed: ViewToken<any>[];
+    }) => {
         if (viewableItems.length > 0) {
             setActiveItem(viewableItems[0].key)
         }
@@ -53,13 +57,13 @@ const Trending = ({ posts }) => {
 
     return (
         <StyledView>
-            <StyledFlatList data={posts ?? []} keyExtractor={(item) => item.$id} renderItem={({ item }) => (
+            <FlatList data={posts ?? []} keyExtractor={(item) => item.$id} renderItem={({ item }) => (
                 <TrendingItem item={item} activeItem={activeItem} />
             )} horizontal onViewableItemsChanged={viewableItemsChange}
                 viewabilityConfig={{
                     viewAreaCoveragePercentThreshold: 70,
                 }}
-                contentOffset={{ x: 170 }}
+                contentOffset={{ x: 70, y: 0 }}
             />
         </StyledView>
     )
