@@ -1,5 +1,5 @@
-import { FlatList } from 'react-native'
-import { useContext } from 'react'
+import { FlatList, RefreshControl } from 'react-native'
+import { useCallback, useContext, useState } from 'react'
 import EmptyState from '../../components/EmptyState'
 import { getUserPosts } from "../../lib/posts"
 import useAppwrite from "../../hooks/useAppwrite"
@@ -11,8 +11,15 @@ import UserCard from '@/components/UserCard'
 
 const Profile = () => {
   const { user, isLoading } = useContext(SessionContext) as TSessionContext
-  const { data: posts } = useAppwrite(() => getUserPosts(user?.$id!))
-
+  const { data: posts, refetch } = useAppwrite(() => getUserPosts(user?.$id!))
+  const [refreshing, setRefreshing] = useState(false)
+  
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true)
+    await refetch()
+    setRefreshing(false)
+  }, [refetch])
+  
   if (isLoading) {
     return <StyledSafeAreaView className="h-full bg-primary" />
   }
@@ -24,6 +31,8 @@ const Profile = () => {
       )} ListEmptyComponent={() => (
         <EmptyState title="No Videos Found" subtitle="Be the first one to upload a video" />
       )}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        maxToRenderPerBatch={5}
       />
     </StyledSafeAreaView>
   )

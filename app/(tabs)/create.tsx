@@ -88,7 +88,7 @@ const Create = () => {
           <StyledTouchableOpacity onPress={() => openPicker('video')}>
             {
               formData.video ? (
-                <StyledVideo source={{ uri: formData.video.uri }} className='h-64 w-full rounded-2xl' resizeMode={ResizeMode.CONTAIN} useNativeControls isLooping />
+                <StyledVideo source={{ uri: formData.video.uri }} className='h-64 w-full rounded-2xl' resizeMode={ResizeMode.CONTAIN} />
               ) :
                 <StyledView className='h-40 w-full items-center justify-center rounded-2xl bg-black-100 px-4'>
                   <StyledView className='h-14 w-14 items-center justify-center border border-dashed border-secondary'>
