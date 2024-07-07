@@ -18,7 +18,8 @@ const Search = () => {
 
   useEffect(() => {
     refetch(query)
-  }, [query, refetch])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query])
 
   return (
     <StyledSafeAreaView className='h-full bg-primary'>

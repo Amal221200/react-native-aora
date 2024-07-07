@@ -8,6 +8,7 @@ export default <T>(fetcher: (...args: any[]) => Promise<T>) => {
         setIsLoading(true)
         try {
             const posts = await fetcher(...args)
+            
             setData(posts)
         } catch (error) {
             console.log(error);
@@ -19,7 +20,8 @@ export default <T>(fetcher: (...args: any[]) => Promise<T>) => {
 
     useEffect(() => {
         fetchData()
-    }, [fetchData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const refetch = useCallback(async (...args: any[]) => {
         await fetchData(...args)
