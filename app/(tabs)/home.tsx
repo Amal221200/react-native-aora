@@ -16,12 +16,12 @@ const Home = () => {
   const [refreshing, setRefreshing] = useState(false)
   const { data: posts, refetch } = useAppwrite(getAllPosts)
   const { data: trendingPosts } = useAppwrite(getLatestPosts)
-  
+
   const onRefresh = useCallback(async () => {
     setRefreshing(true)
     await refetch()
     setRefreshing(false)
-  }, [])
+  }, [refetch])
 
   return (
     <StyledSafeAreaView className="h-full bg-primary">
@@ -46,7 +46,7 @@ const Home = () => {
             </StyledText>
           </StyledView>
 
-          <Trending posts={trendingPosts} />
+          <Trending posts={trendingPosts ?? []} />
         </StyledView>
       )} ListEmptyComponent={() => (
         <EmptyState title="No Videos Found" subtitle="Be the first one to upload a video" />

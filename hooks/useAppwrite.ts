@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from "react"
 
-export default <T>(fetcher: (...args: Array<any>) => Promise<T>) => {
+export default <T>(fetcher: (...args: any[]) => Promise<T>) => {
     const [isLoading, setIsLoading] = useState(false)
     const [data, setData] = useState<T | null>(null)
 
-    const fetchData = useCallback(async (...args: Array<any>) => {
+    const fetchData = useCallback(async (...args: any[]) => {
         setIsLoading(true)
         try {
             const posts = await fetcher(...args)
@@ -15,15 +15,15 @@ export default <T>(fetcher: (...args: Array<any>) => Promise<T>) => {
         } finally {
             setIsLoading(false)
         }
-    }, [])
+    }, [fetcher])
 
     useEffect(() => {
         fetchData()
-    }, [])
+    }, [fetchData])
 
-    const refetch = useCallback(async (...args: Array<any>) => {
+    const refetch = useCallback(async (...args: any[]) => {
         await fetchData(...args)
-    }, [])
+    }, [fetchData])
 
     return {
         data,

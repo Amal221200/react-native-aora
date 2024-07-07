@@ -18,7 +18,7 @@ const Search = () => {
 
   useEffect(() => {
     refetch(query)
-  }, [query])
+  }, [query, refetch])
 
   return (
     <StyledSafeAreaView className='h-full bg-primary'>

@@ -72,7 +72,7 @@ const Create = () => {
         thumbnail: null
       })
     }
-  }, [formData])
+  }, [formData, user?.$id])
 
   return (
     <StyledSafeAreaView className='h-full bg-primary'>

@@ -4,10 +4,11 @@ import { ImageGravity } from 'react-native-appwrite'
 import { ID } from "react-native-appwrite";
 import { Query } from "react-native-appwrite";
 import { appWriteConfig, databases, storage } from "./appwrite";
+import { Post } from "./types";
 
 export async function getAllPosts() {
     try {
-        const posts = await databases.listDocuments(appWriteConfig.databaseId, appWriteConfig.videoCollectionId, [Query.orderDesc('$createdAt')])
+        const posts = await databases.listDocuments<Post>(appWriteConfig.databaseId, appWriteConfig.videoCollectionId, [Query.orderDesc('$createdAt')])
         return posts.documents
     } catch (error) {
         console.log(error);
@@ -17,7 +18,7 @@ export async function getAllPosts() {
 
 export async function getQueryPosts(query: string) {
     try {
-        const posts = await databases.listDocuments(appWriteConfig.databaseId, appWriteConfig.videoCollectionId, [Query.search('title', query), Query.orderAsc('title')])
+        const posts = await databases.listDocuments<Post>(appWriteConfig.databaseId, appWriteConfig.videoCollectionId, [Query.search('title', query), Query.orderAsc('title')])
         return posts.documents
     } catch (error) {
         console.log(error);
@@ -26,7 +27,7 @@ export async function getQueryPosts(query: string) {
 
 export async function getUserPosts(userId: string) {
     try {
-        const posts = await databases.listDocuments(appWriteConfig.databaseId, appWriteConfig.videoCollectionId, [Query.equal('creator', userId), Query.orderDesc('$createdAt')])
+        const posts = await databases.listDocuments<Post>(appWriteConfig.databaseId, appWriteConfig.videoCollectionId, [Query.equal('creator', userId), Query.orderDesc('$createdAt')])
         return posts.documents
     } catch (error) {
         console.log(error);
@@ -35,7 +36,7 @@ export async function getUserPosts(userId: string) {
 
 export async function getLatestPosts() {
     try {
-        const posts = await databases.listDocuments(appWriteConfig.databaseId, appWriteConfig.videoCollectionId, [Query.orderDesc('$createdAt'), Query.limit(7)])
+        const posts = await databases.listDocuments<Post>(appWriteConfig.databaseId, appWriteConfig.videoCollectionId, [Query.orderDesc('$createdAt'), Query.limit(7)])
         return posts.documents
     } catch (error) {
         console.log(error);
@@ -88,7 +89,7 @@ export async function createPost(form: formDataProps & { creator: string }) {
             videoURL = videoResponse.value
         }
 
-        const newPost = await databases.createDocument(appWriteConfig.databaseId, appWriteConfig.videoCollectionId, ID.unique(), {
+        const newPost = await databases.createDocument<Post>(appWriteConfig.databaseId, appWriteConfig.videoCollectionId, ID.unique(), {
             title: form.title,
             thumbnail: thumbnailURL,
             video: videoURL,
@@ -96,7 +97,7 @@ export async function createPost(form: formDataProps & { creator: string }) {
             creator: form.creator
         })
 
-        // return newPost
+        return newPost
     } catch (error) {
         console.log(error);
     }

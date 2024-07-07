@@ -1,33 +1,17 @@
 import { useCallback, useState } from 'react'
 import { ResizeMode } from "expo-av"
 import { icons } from '../constants'
-import { StyledAnimatableView, StyledImage, StyledImageBackground, StyledTouchableOpacity, StyledVideo, StyledView } from './styledComponents'
+import { StyledMotiView, StyledImage, StyledImageBackground, StyledTouchableOpacity, StyledVideo, StyledView } from './styledComponents'
 import { FlatList, ViewToken } from 'react-native'
+import { Post } from '@/lib/types'
 
-const zoomIn = {
-    from: {
-        scale: 0.9
-    },
-    to: {
-        scale: 1
-    }
-}
-const zoomOut= {
-    from: {
-        scale: 1,
-    },
-    to: {
-        scale: 0.9
-    }
-}
-
-const TrendingItem = ({ activeItem, item }: { activeItem: string, item: any }) => {
+const TrendingItem = ({ activeItem, item }: { activeItem: string, item: Post }) => {
     const [play, setPlay] = useState(false);
     return (
-        <StyledAnimatableView className="mr-5" animation={activeItem === item.$id ? zoomIn : zoomOut} duration={500}>
+        <StyledMotiView className="mr-5" from={activeItem === item.$id ? { scale: 0.9 } : { scale: 1 }} animate={activeItem === item.$id ? { scale: 1 } : { scale: 0.9 }} >
             {
                 play ? (
-                    <StyledVideo source={{uri: item.video }} resizeMode={ResizeMode.CONTAIN} className="h-72 w-52 rounded-[35px] bg-white/10" useNativeControls shouldPlay onPlaybackStatusUpdate={(status) => {
+                    <StyledVideo source={{ uri: item.video }} resizeMode={ResizeMode.CONTAIN} className="h-72 w-52 rounded-[35px] bg-white/10" useNativeControls shouldPlay onPlaybackStatusUpdate={(status) => {
                         if (status.isLoaded && status.didJustFinish) {
                             setPlay(false)
                         }
@@ -39,16 +23,16 @@ const TrendingItem = ({ activeItem, item }: { activeItem: string, item: any }) =
                     </StyledTouchableOpacity>
                 )
             }
-        </StyledAnimatableView>
+        </StyledMotiView>
     )
 }
 
-const Trending = ({ posts }: { posts: Array<any> }) => {
+const Trending = ({ posts }: { posts: Post[] }) => {
     const [activeItem, setActiveItem] = useState(posts?.[1]?.$id);
 
     const viewableItemsChange = useCallback(({ viewableItems }: {
-        viewableItems: ViewToken<any>[];
-        changed: ViewToken<any>[];
+        viewableItems: ViewToken<Post>[];
+        changed: ViewToken<Post>[];
     }) => {
         if (viewableItems.length > 0) {
             setActiveItem(viewableItems[0].key)
@@ -63,7 +47,7 @@ const Trending = ({ posts }: { posts: Array<any> }) => {
                 viewabilityConfig={{
                     viewAreaCoveragePercentThreshold: 70,
                 }}
-                contentOffset={{ x: 70, y: 0 }}
+                contentOffset={{ x: 170, y: 10 }}
             />
         </StyledView>
     )

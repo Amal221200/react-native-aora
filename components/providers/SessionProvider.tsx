@@ -1,13 +1,13 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from 'react'
-import { Models } from 'react-native-appwrite'
 import { getCurrentUser } from "../../lib/users"
+import { User } from '@/lib/types'
 
 
 export interface TSessionContext {
     isLoading: boolean,
     isLoggedIn: boolean,
-    user: Models.Document | null,
-    setUser: Dispatch<SetStateAction<Models.Document | null>>,
+    user: User | null,
+    setUser: Dispatch<SetStateAction<User | null>>,
     setIsLoading: Dispatch<SetStateAction<boolean>>,
     setIsLoggedIn: Dispatch<SetStateAction<boolean>>,
 }
@@ -17,7 +17,7 @@ export const SessionContext = createContext<TSessionContext | undefined>(undefin
 const SessionProvider = ({ children }: { children: ReactNode }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [user, setUser] = useState<Models.Document | null>(null);
+    const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
         setIsLoading(true)

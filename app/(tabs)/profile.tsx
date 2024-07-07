@@ -4,7 +4,7 @@ import EmptyState from '../../components/EmptyState'
 import { getUserPosts } from "../../lib/posts"
 import useAppwrite from "../../hooks/useAppwrite"
 import VideoCard from '../../components/VideoCard'
-import { StyledSafeAreaView, StyledText, StyledTouchableOpacity, StyledView } from '@/components/styledComponents'
+import { StyledSafeAreaView, } from '@/components/styledComponents'
 import { Models } from 'react-native-appwrite'
 import { SessionContext, TSessionContext } from '@/components/providers/SessionProvider'
 import UserCard from '@/components/UserCard'
@@ -13,8 +13,8 @@ const Profile = () => {
   const { user, isLoading } = useContext(SessionContext) as TSessionContext
   const { data: posts } = useAppwrite(() => getUserPosts(user?.$id!))
 
-  if(isLoading){
-    <StyledSafeAreaView className="h-full bg-primary" />
+  if (isLoading) {
+    return <StyledSafeAreaView className="h-full bg-primary" />
   }
 
   return (

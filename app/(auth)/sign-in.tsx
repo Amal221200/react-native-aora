@@ -37,7 +37,7 @@ const SignIn = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [formData])
+  }, [formData, setIsLoggedIn, setUser])
 
   return (
     <StyledSafeAreaView className="h-full bg-primary">

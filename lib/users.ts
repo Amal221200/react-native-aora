@@ -1,5 +1,6 @@
 import { ID, Query } from "react-native-appwrite";
 import { account, appWriteConfig, avatars, databases } from "./appwrite";
+import { User } from "./types";
 
 export async function createUser(email: string, password: string, username: string) {
     try {
@@ -7,7 +8,7 @@ export async function createUser(email: string, password: string, username: stri
         const avatar = avatars.getInitials(username)
 
         await signIn(email, password);
-        const newUser = await databases.createDocument(appWriteConfig.databaseId, appWriteConfig.userCollectionId, ID.unique(), {
+        const newUser = await databases.createDocument<User>(appWriteConfig.databaseId, appWriteConfig.userCollectionId, ID.unique(), {
             email,
             username,
             avatar,
@@ -35,14 +36,14 @@ export async function getCurrentUser() {
         if (!currentAccount) {
             return null
         }
-        const currentUser = await databases.listDocuments(appWriteConfig.databaseId, appWriteConfig.userCollectionId, [Query.equal('accountId', currentAccount.$id)])
+        const currentUser = await databases.listDocuments<User>(appWriteConfig.databaseId, appWriteConfig.userCollectionId, [Query.equal('accountId', currentAccount.$id)])
         if (!currentUser) {
             return null
         }
-
         return currentUser.documents[0]
     } catch (error) {
-        throw new Error("");
+        console.log(error);
+        throw new Error("Get Current User Error");
     }
 }
 

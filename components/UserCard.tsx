@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import { StyledImage, StyledText, StyledTouchableOpacity, StyledView } from './styledComponents'
+import { StyledImage,  StyledTouchableOpacity, StyledView } from './styledComponents'
 import { icons } from '@/constants'
 import { SessionContext, TSessionContext } from './providers/SessionProvider'
 import InfoCard from './InfoCard'
@@ -14,7 +14,7 @@ const UserCard = ({ posts }: { posts: number }) => {
         setUser(null)
         setIsLoggedIn(false)
         router.replace('/sign-in')
-    }, [])
+    }, [setIsLoggedIn, setUser])
 
     if (isLoading) {
         return null
@@ -31,7 +31,7 @@ const UserCard = ({ posts }: { posts: number }) => {
                 <StyledImage source={{ uri: user?.avatar }} resizeMode='cover' className='h-[90%] w-[90%] rounded-lg' />
             </StyledView>
 
-            <InfoCard title={user?.username} containerStyles='mt-5' titleStyles='text-lg' />
+            <InfoCard title={user?.username!} containerStyles='mt-5' titleStyles='text-lg' />
 
             <StyledView className='mt-5 flex-row items-center'>
                 <InfoCard title={posts.toString()} containerStyles='mr-7' subtitle='Posts' titleStyles='text-lg' />

@@ -4,7 +4,7 @@ import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
 import { useCallback, useContext, useState } from 'react'
 import { Link, router } from 'expo-router'
-import { createUser, getCurrentUser } from "../../lib/users"
+import { createUser } from "../../lib/users"
 import { StyledImage, StyledSafeAreaView, StyledScrollView, StyledText, StyledView } from '@/components/styledComponents'
 import { SessionContext, TSessionContext } from '@/components/providers/SessionProvider'
 
@@ -18,7 +18,7 @@ const SignUp = () => {
   })
 
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const handleSubmit = useCallback(async () => {
     const { email, password, username } = formData
     if (!email || !password || !username) {
@@ -36,7 +36,7 @@ const SignUp = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [formData])
+  }, [formData, setIsLoggedIn, setUser])
 
   return (
     <StyledSafeAreaView className="h-full bg-primary">

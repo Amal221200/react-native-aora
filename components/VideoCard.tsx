@@ -2,8 +2,9 @@ import { icons } from "../constants"
 import { useState } from 'react'
 import { ResizeMode } from 'expo-av'
 import { StyledImage, StyledText, StyledTouchableOpacity, StyledVideo, StyledView } from './styledComponents'
+import { Post } from "@/lib/types"
 
-const VideoCard = ({ video }: { video: any }) => {
+const VideoCard = ({ video }: { video: Post }) => {
     const [play, setPlay] = useState(false)
 
     return (
