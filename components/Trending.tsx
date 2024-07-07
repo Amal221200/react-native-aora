@@ -1,14 +1,18 @@
 import { useCallback, useState } from 'react'
 import { ResizeMode } from "expo-av"
 import { icons } from '../constants'
-import { StyledMotiView, StyledImage, StyledImageBackground, StyledTouchableOpacity, StyledVideo, StyledView } from './styledComponents'
+import { StyledImage, StyledImageBackground, StyledTouchableOpacity, StyledVideo, StyledView, StyledAnimatable } from './styledComponents'
 import { FlatList, ViewToken } from 'react-native'
 import { Post } from '@/lib/types'
 
+const zoomIn = { from: { transform: [{ scale: 0.9 }] }, to: { transform: [{ scale: 1 }] } }
+const zoomOut = { from: { transform: [{ scale: 1 }] }, to: { transform: [{ scale: 0.9 }] } }
+
 const TrendingItem = ({ activeItem, item }: { activeItem: string, item: Post }) => {
     const [play, setPlay] = useState(false);
+
     return (
-        <StyledMotiView className="mr-5" from={activeItem === item.$id ? { scale: 0.9 } : { scale: 1 }} animate={activeItem === item.$id ? { scale: 1 } : { scale: 0.9 }} >
+        <StyledAnimatable className="mr-5" animation={activeItem === item.$id ? zoomIn : zoomOut} duration={500}>
             {
                 play ? (
                     <StyledVideo source={{ uri: item.video }} resizeMode={ResizeMode.CONTAIN} className="h-72 w-52 rounded-[35px] bg-white/10" useNativeControls shouldPlay onPlaybackStatusUpdate={(status) => {
@@ -23,7 +27,7 @@ const TrendingItem = ({ activeItem, item }: { activeItem: string, item: Post }) 
                     </StyledTouchableOpacity>
                 )
             }
-        </StyledMotiView>
+        </StyledAnimatable>
     )
 }
 

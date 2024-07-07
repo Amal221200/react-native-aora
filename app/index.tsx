@@ -1,6 +1,4 @@
 import 'react-native-url-polyfill/auto'
-import 'react-native-reanimated'
-import 'react-native-gesture-handler'
 import { images } from "@/constants";
 import { router, Redirect } from "expo-router";
 import { StatusBar } from "expo-status-bar";
