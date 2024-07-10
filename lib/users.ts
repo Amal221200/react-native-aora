@@ -16,8 +16,8 @@ export async function createUser(email: string, password: string, username: stri
         })
 
         return newUser
-    } catch (error) {
-        console.log(error);
+    } catch (error: any) {
+        throw new Error(error.message)
     }
 }
 
@@ -25,8 +25,8 @@ export async function signIn(email: string, password: string) {
     try {
         const session = await account.createEmailPasswordSession(email, password);
         return session
-    } catch (error) {
-        console.log(error);
+    } catch (error: any) {
+        throw new Error(error.message)
     }
 }
 
@@ -51,7 +51,8 @@ export async function signOut() {
     try {
         const session = await account.deleteSession('current');
         return session
-    } catch (error) {
+    } catch (error:any) {
         console.log(error);
+        throw new Error(error.message)
     }
 }

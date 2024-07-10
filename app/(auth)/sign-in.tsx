@@ -2,19 +2,18 @@ import { ToastAndroid } from 'react-native'
 import { images } from "../../constants"
 import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
-import { useCallback, useContext, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Link, router } from 'expo-router'
-import { getCurrentUser, signIn } from '../../lib/users'
+import {  signIn } from '../../lib/users'
 import { StyledImage, StyledSafeAreaView, StyledScrollView, StyledText, StyledView } from '@/components/styledComponents'
-import { SessionContext, TSessionContext } from '@/components/providers/SessionProvider'
+import { useQueryClient } from '@tanstack/react-query'
 
 const SignIn = () => {
+  const queryClient = useQueryClient()
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   })
-
-  const { setIsLoggedIn, setUser } = useContext(SessionContext) as TSessionContext
 
   const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = useCallback(async () => {
@@ -27,9 +26,7 @@ const SignIn = () => {
     try {
       setIsLoading(true)
       await signIn(email, password)
-      const user = await getCurrentUser()
-      setIsLoggedIn(true)
-      setUser(user)
+      await queryClient.invalidateQueries({ queryKey: ['session'] })
       router.replace('/home')
     } catch (error) {
       ToastAndroid.showWithGravity('Something went wrong', 5, ToastAndroid.BOTTOM)
@@ -37,7 +34,7 @@ const SignIn = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [formData, setIsLoggedIn, setUser])
+  }, [formData, queryClient])
 
   return (
     <StyledSafeAreaView className="h-full bg-primary">

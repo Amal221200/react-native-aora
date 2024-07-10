@@ -3,21 +3,20 @@ import { images } from "@/constants";
 import { router, Redirect } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import CustomButton from "@/components/CustomButton";
-import { useContext } from 'react';
-import { SessionContext, TSessionContext } from '@/components/providers/SessionProvider';
 import { StyledImage, StyledSafeAreaView, StyledScrollView, StyledText, StyledView } from '@/components/styledComponents';
+import useSession from '@/hooks/useSession';
 
 export default function Index() {
-  const session = useContext(SessionContext) as TSessionContext
+  const { isLoading, user } = useSession()
 
-  if(session.isLoading){
+  if (isLoading) {
     return null
   }
-
-  if(session.isLoggedIn){
-    return <Redirect href="/home" /> 
-  }
   
+  if (user) {
+    return <Redirect href="/home" />
+  }
+
   return (
     <StyledSafeAreaView className="h-full bg-primary">
       <StyledScrollView contentContainerStyle={{

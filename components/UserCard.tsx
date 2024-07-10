@@ -1,20 +1,20 @@
-import React, { useCallback, useContext } from 'react'
-import { StyledImage,  StyledTouchableOpacity, StyledView } from './styledComponents'
+import React, { useCallback } from 'react'
+import { StyledImage, StyledTouchableOpacity, StyledView } from './styledComponents'
 import { icons } from '@/constants'
-import { SessionContext, TSessionContext } from './providers/SessionProvider'
 import InfoCard from './InfoCard'
 import { signOut } from '@/lib/users'
 import { router } from 'expo-router'
+import useSession from '@/hooks/useSession'
+import { useQueryClient } from '@tanstack/react-query'
 
 const UserCard = ({ posts }: { posts: number }) => {
-    const { isLoading, user, setUser, setIsLoggedIn } = useContext(SessionContext) as TSessionContext
-
+    const { isLoading, user } = useSession()
+    const queryClient = useQueryClient()
     const handleLogout = useCallback(async () => {
         await signOut()
-        setUser(null)
-        setIsLoggedIn(false)
+        queryClient.invalidateQueries({ queryKey: ['session'] })
         router.replace('/sign-in')
-    }, [setIsLoggedIn, setUser])
+    }, [queryClient])
 
     if (isLoading) {
         return null

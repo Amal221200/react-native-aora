@@ -1,11 +1,15 @@
-import SessionProvider from "@/components/providers/SessionProvider";
+import { useReactQueryDevTools } from "@dev-plugins/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 
 SplashScreen.preventAutoHideAsync()
 
+const queryClient = new QueryClient()
 export default function RootLayout() {
+  useReactQueryDevTools(queryClient);
+
   const [fontsLoaded, error] = useFonts({
     "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
     "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
@@ -30,15 +34,17 @@ export default function RootLayout() {
     return null;
   }
   return (
-    <SessionProvider>
-      <Stack screenOptions={{
-        headerShown: false
-      }}>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="(auth)" />
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="search/[query]" />
-      </Stack>
-    </SessionProvider>
+    <QueryClientProvider client={queryClient}>
+      <>
+        <Stack screenOptions={{
+          headerShown: false
+        }}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="search/[query]" />
+        </Stack>
+      </>
+    </QueryClientProvider>
   );
 }

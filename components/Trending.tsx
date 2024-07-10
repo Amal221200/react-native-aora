@@ -4,8 +4,7 @@ import { icons } from '../constants'
 import { StyledImage, StyledImageBackground, StyledTouchableOpacity, StyledVideo, StyledView, StyledAnimatable } from './styledComponents'
 import { FlatList, RefreshControl, ViewToken } from 'react-native'
 import { Post } from '@/lib/types'
-import useAppwrite from '@/hooks/useAppwrite'
-import { getLatestPosts } from '@/lib/posts'
+import useFetchLatestPosts from '@/hooks/posts/useFetchLatestPosts'
 
 const zoomIn = { from: { transform: [{ scale: 0.9 }] }, to: { transform: [{ scale: 1 }] } }
 const zoomOut = { from: { transform: [{ scale: 1 }] }, to: { transform: [{ scale: 0.9 }] } }
@@ -34,7 +33,7 @@ const TrendingItem = ({ activeItem, item }: { activeItem: string, item: Post }) 
 }
 
 const Trending = () => {
-    const { data: posts, refetch } = useAppwrite(getLatestPosts)
+    const { posts, refetch } = useFetchLatestPosts()
     const [activeItem, setActiveItem] = useState(posts?.[1]?.$id!);
     const [refreshing, setRefreshing] = useState(false)
 

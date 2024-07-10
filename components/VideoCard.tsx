@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { ResizeMode } from 'expo-av'
 import { StyledImage, StyledText, StyledTouchableOpacity, StyledVideo, StyledView } from './styledComponents'
 import { Post } from "@/lib/types"
+import CardActions from "./CardActions"
 
 const VideoCard = ({ video }: { video: Post }) => {
     const [play, setPlay] = useState(false)
@@ -26,7 +27,9 @@ const VideoCard = ({ video }: { video: Post }) => {
                     </StyledView>
                 </StyledView>
                 <StyledView className="pt-2">
-                    <StyledImage source={icons.menu} resizeMode='contain' className="h-5 w-5" />
+                    <CardActions post={video}>
+                        <StyledImage source={icons.menu} resizeMode='contain' className="h-5 w-5" />
+                    </CardActions>
                 </StyledView>
             </StyledView>
             {

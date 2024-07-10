@@ -1,12 +1,11 @@
-import { useContext } from 'react'
 import { images } from '@/constants'
 import { StyledImage, StyledText, StyledView } from './styledComponents'
-import { SessionContext, TSessionContext } from './providers/SessionProvider'
 import SearchInput from './SearchInput'
 import Trending from './Trending'
+import useSession from '@/hooks/useSession'
 
 const HomeHeader = () => {
-    const { user } = useContext(SessionContext) as TSessionContext
+    const { user } = useSession()
 
     return (
         <StyledView className="my-6 space-y-6 px-4">

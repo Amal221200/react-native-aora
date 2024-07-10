@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { StyledImage, StyledSafeAreaView, StyledScrollView, StyledText, StyledTouchableOpacity, StyledVideo, StyledView } from '@/components/styledComponents'
 import FormField from '@/components/FormField'
 import { ResizeMode } from 'expo-av';
@@ -6,9 +6,8 @@ import { icons } from '@/constants';
 import CustomButton from '@/components/CustomButton';
 import * as ImagePicker from 'expo-image-picker'
 import { Alert, ToastAndroid } from 'react-native';
-import { SessionContext, TSessionContext } from '@/components/providers/SessionProvider';
 import { router } from 'expo-router';
-import { createPost } from '@/lib/posts';
+import useCreatePost from '@/hooks/posts/useCreatePost';
 
 export interface formDataProps {
   title: string,
@@ -18,7 +17,6 @@ export interface formDataProps {
 }
 
 const Create = () => {
-  const { user } = useContext(SessionContext) as TSessionContext
   const [isUploading, setIsUploading] = useState(false);
   const [formData, setFormData] = useState<formDataProps>({
     title: '',
@@ -26,6 +24,7 @@ const Create = () => {
     thumbnail: null,
     prompt: ''
   });
+  const { createPost } = useCreatePost()
 
   const openPicker = useCallback(async (selectType: 'video' | 'image') => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -59,7 +58,7 @@ const Create = () => {
 
     setIsUploading(true)
     try {
-      await createPost({ ...formData, creator: user?.$id! });
+      await createPost({ ...formData });
       router.push('/home')
     } catch (error) {
       console.log(error);
@@ -72,7 +71,7 @@ const Create = () => {
         thumbnail: null
       })
     }
-  }, [formData, user?.$id])
+  }, [formData, createPost])
 
   return (
     <StyledSafeAreaView className='h-full bg-primary'>

@@ -2,21 +2,19 @@ import { ToastAndroid } from 'react-native'
 import { images } from "../../constants"
 import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
-import { useCallback, useContext, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Link, router } from 'expo-router'
 import { createUser } from "../../lib/users"
 import { StyledImage, StyledSafeAreaView, StyledScrollView, StyledText, StyledView } from '@/components/styledComponents'
-import { SessionContext, TSessionContext } from '@/components/providers/SessionProvider'
+import { useQueryClient } from '@tanstack/react-query'
 
 const SignUp = () => {
-  const { setIsLoggedIn, setUser } = useContext(SessionContext) as TSessionContext
-
+  const queryClient = useQueryClient()
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
   })
-
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = useCallback(async () => {
@@ -26,9 +24,8 @@ const SignUp = () => {
     }
     try {
       setIsLoading(true)
-      const user = await createUser(email, password, username)
-      setIsLoggedIn(true)
-      setUser(user!)
+      await createUser(email, password, username)
+      await queryClient.invalidateQueries({ queryKey: ['session'] })
       router.replace('/home')
     } catch (error) {
       ToastAndroid.showWithGravity('Something went wrong', 5, ToastAndroid.BOTTOM)
@@ -36,7 +33,7 @@ const SignUp = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [formData, setIsLoggedIn, setUser])
+  }, [formData, queryClient])
 
   return (
     <StyledSafeAreaView className="h-full bg-primary">

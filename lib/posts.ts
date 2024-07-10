@@ -102,3 +102,9 @@ export async function createPost(form: formDataProps & { creator: string }) {
         console.log(error);
     }
 }
+
+export async function deletePost(id: string) {
+    const deletedPost = await databases.deleteDocument(appWriteConfig.databaseId, appWriteConfig.videoCollectionId, id);
+    
+    return deletedPost
+}
