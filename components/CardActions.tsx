@@ -38,8 +38,8 @@ const CardActions = ({ children, post }: { children: ReactNode, post: Post }) =>
             <StyledTouchableOpacity onPress={toggleOpen}>
                 {children}
             </StyledTouchableOpacity>
-            <StyledView className={`${open ? 'max-h-max -top-[70px] border' : 'max-h-0 top-0 border-0'}  border-white/30 bg-black absolute w-[100px] duration-500 rounded-lg transition-all right-0 overflow-hidden z-[5] gap-y-2`}>
-                <StyledTouchableOpacity activeOpacity={0.7} disabled={loading} className={`flex-row gap-x-1 p-1 ${loading ? 'opacity-50' : ''}`}>
+            <StyledView className={`${open ? 'max-h-max -top-[70px] border p-1' : 'max-h-0 top-0 border-0 p-0'}  border-white/30 bg-black absolute w-[100px] duration-500 rounded-lg transition-all right-0 overflow-hidden z-[5] gap-y-1`}>
+                <StyledTouchableOpacity activeOpacity={0.7} disabled={loading} className={`flex-row items-center gap-x-1 ${loading ? 'opacity-50' : ''}`}>
                     <MaterialIcons name="bookmark" size={15} color="#FF9C01" />
                     <StyledText className='text-white'>
                         Save
@@ -47,7 +47,7 @@ const CardActions = ({ children, post }: { children: ReactNode, post: Post }) =>
                 </StyledTouchableOpacity>
                 {
                     isUser && (
-                        <StyledTouchableOpacity activeOpacity={0.7} disabled={loading} onPress={onDelete} className={`flex-row gap-x-1 p-1 ${loading ? 'opacity-50' : ''}`}>
+                        <StyledTouchableOpacity activeOpacity={0.7} disabled={loading} onPress={onDelete} className={`flex-row items-center gap-x-1 ${loading ? 'opacity-50' : ''}`}>
                             <MaterialIcons name="delete" size={15} color="red" />
                             <StyledText className='text-white'>
                                 Delete
