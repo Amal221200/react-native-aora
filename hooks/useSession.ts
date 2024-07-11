@@ -15,7 +15,7 @@ export default function (){
         queryFn: fetcher,
     }, queryClient)
 
-    if(!isLoading && !isError && !data){
+    if(!isLoading && !isError && !data?.$id){
         router.replace('/sign-in')
         return {
             user: null,

@@ -7,8 +7,8 @@ export const appWriteConfig = {
     databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID!,
     userCollectionId: process.env.EXPO_PUBLIC_APPWRITE_USER_COLLECTION_ID!,
     videoCollectionId: process.env.EXPO_PUBLIC_APPWRITE_VIDEO_COLLECTION_ID!,
+    bookmarkCollectionId: process.env.EXPO_PUBLIC_APPWRITE_BOOKMARK_COLLECTION_ID!,
     storageId: process.env.EXPO_PUBLIC_APPWRITE_STORAGE_ID!,
-
 }
 
 // Init your React Native SDK

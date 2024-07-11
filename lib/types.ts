@@ -14,3 +14,8 @@ export interface User extends Models.Document {
     avatar: string,
     accountId: string
 }
+
+export interface Bookmark extends Models.Document {
+    video: Post,
+    user: User
+}

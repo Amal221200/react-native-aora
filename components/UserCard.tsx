@@ -12,7 +12,7 @@ const UserCard = ({ posts }: { posts: number }) => {
     const queryClient = useQueryClient()
     const handleLogout = useCallback(async () => {
         await signOut()
-        queryClient.invalidateQueries({ queryKey: ['session'] })
+        await queryClient.invalidateQueries({ queryKey: ['session'] })
         router.replace('/sign-in')
     }, [queryClient])
 

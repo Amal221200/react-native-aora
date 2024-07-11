@@ -6,6 +6,7 @@ import { StyledSafeAreaView, } from '@/components/styledComponents'
 import HomeHeader from '@/components/HomeHeader'
 import { Post } from '@/lib/types'
 import useFetchPosts from '@/hooks/posts/useFetchPosts'
+import { router } from 'expo-router'
 
 const Home = () => {
   const [refreshing, setRefreshing] = useState(false)
@@ -25,7 +26,7 @@ const Home = () => {
           <HomeHeader />
         )}
         ListEmptyComponent={() => (
-          <EmptyState title="No Videos Found" subtitle="Be the first one to upload a video" />
+          <EmptyState action={() => { router.push('/create') }} title="No Videos Found" text='Create a video' subtitle="Be the first one to upload a video" />
         )}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         maxToRenderPerBatch={5}
