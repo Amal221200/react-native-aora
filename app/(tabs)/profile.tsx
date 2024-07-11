@@ -6,6 +6,7 @@ import { StyledSafeAreaView, } from '@/components/styledComponents'
 import UserCard from '@/components/UserCard'
 import { Post } from '@/lib/types'
 import useFetchUserPosts from '@/hooks/posts/useFetchUserPosts'
+import { router } from 'expo-router'
 
 const Profile = () => {
   const { posts, refetch } = useFetchUserPosts()
@@ -22,7 +23,7 @@ const Profile = () => {
       <FlatList data={posts} keyExtractor={(item: Post) => item.$id} renderItem={({ item: video }) => <VideoCard video={video} />} ListHeaderComponent={() => (
         <UserCard posts={posts?.length ?? 0} />
       )} ListEmptyComponent={() => (
-        <EmptyState title="No Videos Found" subtitle="Be the first one to upload a video" />
+        <EmptyState action={() => { router.push('/create') }} title="No Videos Found" text='Create a video' subtitle="Be the first one to upload a video" />
       )}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         maxToRenderPerBatch={5}

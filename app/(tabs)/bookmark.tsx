@@ -32,7 +32,7 @@ const BookMark = () => {
           <EmptyState action={() => { 
             router.replace('/home') 
             setSearchText('')
-          }} title="No Videos Found" subtitle="Couldn't find the video in the bookmark" text='Go back to HomePage' />
+          }} title="No Videos Saved" subtitle="Go back to homepage to save video" text='Go back to HomePage' />
         )}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         maxToRenderPerBatch={5}
